@@ -1,5 +1,5 @@
-﻿using RaftConsensus.Consensus.Interfaces;
-using RaftConsensus.Messages.Interfaces;
+﻿using RaftConsensus.Common.Consensus.Interfaces;
+using RaftConsensus.Common.Messages.Interfaces;
 using System;
 
 namespace RaftConsensus.Consensus

@@ -1,19 +1,22 @@
-﻿using RaftConsensus.Consensus.Enums;
-using RaftConsensus.Consensus.Interfaces;
-using RaftConsensus.Messages.Interfaces;
+﻿using RaftConsensus.Common.Consensus.Enums;
+using RaftConsensus.Common.Consensus.Interfaces;
+using RaftConsensus.Common.Log.Interfaces;
+using RaftConsensus.Common.Messages.Interfaces;
+using RaftConsensus.Common.PeerManagement.Interfaces;
 using System;
-using RaftConsensus.Log.Interfaces;
 
 namespace RaftConsensus.Consensus
 {
     public class RaftConsensusContext : IRaftConsensus
     {
         private IRaftConsensusState _currentState;
-        private readonly IRaftLog _raftLog;
+        private RaftConsensusState _currentStateEnum;
 
-        public RaftConsensusContext(IRaftLog raftLog)
+        public RaftConsensusContext(IRaftLog raftLog, IPeerManagement peerManagement)
         {
-            _raftLog = raftLog;
+            RaftLog = raftLog;
+            PeerManagement = peerManagement;
+
             SetState(RaftConsensusState.Follower);
         }
 
@@ -22,9 +25,20 @@ namespace RaftConsensus.Consensus
             _currentState.ProcessMessage(raftMessage);
         }
 
-        public void SetState(RaftConsensusState state)
+        public RaftConsensusState State
+        {
+            get => _currentStateEnum;
+            set => SetState(value);
+        }
+
+        public IRaftLog RaftLog { get; }
+        public IPeerManagement PeerManagement { get; }
+
+        private void SetState(RaftConsensusState state)
         {
             _currentState?.Dispose();
+
+            _currentStateEnum = state;
 
             _currentState = state switch
             {
@@ -33,11 +47,6 @@ namespace RaftConsensus.Consensus
                 RaftConsensusState.Leader => new RaftConsensusStateLeader(this),
                 _ => throw new NotImplementedException(),
             };
-        }
-
-        public IRaftLog GetRaftLog()
-        {
-            return _raftLog;
         }
     }
 }

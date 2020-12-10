@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaftConsensus", "RaftConsen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaftConsensus.Tests", "RaftConsensus.Tests\RaftConsensus.Tests.csproj", "{0E2A6FC7-C4FC-4F42-98E0-3F94F37ED98E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaftConsensus.Common", "RaftConsensus.Common\RaftConsensus.Common.csproj", "{B1631E2C-DF13-4BE5-8F24-FAA0D0A05CE4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0E2A6FC7-C4FC-4F42-98E0-3F94F37ED98E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E2A6FC7-C4FC-4F42-98E0-3F94F37ED98E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E2A6FC7-C4FC-4F42-98E0-3F94F37ED98E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1631E2C-DF13-4BE5-8F24-FAA0D0A05CE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1631E2C-DF13-4BE5-8F24-FAA0D0A05CE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1631E2C-DF13-4BE5-8F24-FAA0D0A05CE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1631E2C-DF13-4BE5-8F24-FAA0D0A05CE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
