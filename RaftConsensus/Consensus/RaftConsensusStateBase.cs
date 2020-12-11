@@ -1,11 +1,10 @@
 ﻿using RaftConsensus.Common.Consensus.Interfaces;
 using RaftConsensus.Common.Messages.Interfaces;
-using System;
 using System.Threading;
 
 namespace RaftConsensus.Consensus
 {
-    public abstract class RaftConsensusStateBase : IRaftConsensusState, IDisposable
+    public abstract class RaftConsensusStateBase : IRaftConsensusState
     {
         protected readonly IRaftConsensus Context;
         private readonly Thread _backgroundThread;
