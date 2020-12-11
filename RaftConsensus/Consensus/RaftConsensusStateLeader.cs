@@ -14,7 +14,7 @@ namespace RaftConsensus.Consensus
 
         public override void ProcessMessage(IRaftMessage raftMessage)
         {
-
+            base.ProcessMessage(raftMessage);
         }
 
         protected override void BackgroundThread(CancellationToken token)
