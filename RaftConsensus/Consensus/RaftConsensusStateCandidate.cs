@@ -1,6 +1,5 @@
 ﻿using RaftConsensus.Common.Consensus.Interfaces;
 using RaftConsensus.Common.Messages.Interfaces;
-using System.Threading;
 
 namespace RaftConsensus.Consensus
 {
@@ -17,9 +16,9 @@ namespace RaftConsensus.Consensus
             base.ProcessMessage(raftMessage);
         }
 
-        protected override void BackgroundThread(CancellationToken token)
+        protected override void TimeoutAction()
         {
-
+            
         }
     }
 }
