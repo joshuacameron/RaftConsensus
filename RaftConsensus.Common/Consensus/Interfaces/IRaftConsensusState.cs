@@ -1,9 +1,8 @@
 ﻿using RaftConsensus.Common.Messages.Interfaces;
-using System;
 
 namespace RaftConsensus.Common.Consensus.Interfaces
 {
-    public interface IRaftConsensusState : IDisposable
+    public interface IRaftConsensusState
     {
         void ProcessMessage(IRaftMessage raftMessage);
     }

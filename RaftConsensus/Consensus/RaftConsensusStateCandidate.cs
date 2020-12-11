@@ -1,6 +1,6 @@
 ﻿using RaftConsensus.Common.Consensus.Interfaces;
 using RaftConsensus.Common.Messages.Interfaces;
-using System;
+using System.Threading;
 
 namespace RaftConsensus.Consensus
 {
@@ -17,9 +17,9 @@ namespace RaftConsensus.Consensus
 
         }
 
-        public override void Dispose()
+        protected override void BackgroundThread(CancellationToken token)
         {
-            throw new NotImplementedException();
+
         }
     }
 }
