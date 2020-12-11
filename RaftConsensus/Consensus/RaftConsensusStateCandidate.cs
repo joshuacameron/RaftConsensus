@@ -6,7 +6,7 @@ namespace RaftConsensus.Consensus
     internal class RaftConsensusStateCandidate : RaftConsensusStateBase
     {
         public RaftConsensusStateCandidate(IRaftConsensus context)
-            : base(context, context.Settings.CandidateTimeoutSeconds)
+            : base(context, context.Settings.CandidateTimeoutMilliseconds)
         {
 
         }

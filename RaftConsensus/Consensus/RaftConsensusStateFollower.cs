@@ -6,7 +6,7 @@ namespace RaftConsensus.Consensus
     internal class RaftConsensusStateFollower : RaftConsensusStateBase
     {
         public RaftConsensusStateFollower(IRaftConsensus context)
-            : base(context, context.Settings.FollowerTimeoutSeconds)
+            : base(context, context.Settings.FollowerTimeoutMilliseconds)
         {
 
         }

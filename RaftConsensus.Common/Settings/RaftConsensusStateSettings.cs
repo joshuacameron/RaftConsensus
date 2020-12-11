@@ -2,8 +2,8 @@
 {
     public class RaftConsensusStateSettings
     {
-        public int LeaderTimeoutSeconds { get; set; }
-        public int FollowerTimeoutSeconds { get; set; }
-        public int CandidateTimeoutSeconds { get; set; }
+        public int LeaderTimeoutMilliseconds { get; set; }
+        public int FollowerTimeoutMilliseconds { get; set; }
+        public int CandidateTimeoutMilliseconds { get; set; }
     }
 }
