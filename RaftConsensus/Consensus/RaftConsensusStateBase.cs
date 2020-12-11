@@ -2,21 +2,22 @@
 using RaftConsensus.Common.Messages.Interfaces;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace RaftConsensus.Consensus
 {
-    public abstract class RaftConsensusStateBase : IRaftConsensusState
+    internal abstract class RaftConsensusStateBase : IRaftConsensusState
     {
         protected readonly IRaftConsensus Context;
-        private readonly TimeSpan _actionTimeout;
+        private readonly int _actionTimeoutMilliseconds;
         private readonly Thread _backgroundThread;
         private readonly CancellationTokenSource _cancellationTokenSource;
         private readonly ManualResetEvent _resetTimeoutEvent;
 
-        protected RaftConsensusStateBase(IRaftConsensus context, TimeSpan actionTimeout)
+        protected RaftConsensusStateBase(IRaftConsensus context, int actionTimeoutMilliseconds)
         {
             Context = context;
-            _actionTimeout = actionTimeout;
+            _actionTimeoutMilliseconds = actionTimeoutMilliseconds;
             _resetTimeoutEvent = new ManualResetEvent(false);
 
             _cancellationTokenSource = new CancellationTokenSource();
@@ -43,7 +44,7 @@ namespace RaftConsensus.Consensus
                 const int resetTimeoutEventIndex = 0;
                 const int cancellationTimeoutEventIndex = 1;
 
-                int signaledIndex = WaitHandle.WaitAny(new[] { _resetTimeoutEvent, cancellationToken.WaitHandle }, _actionTimeout);
+                int signaledIndex = WaitHandle.WaitAny(new[] { _resetTimeoutEvent, cancellationToken.WaitHandle}, _actionTimeoutMilliseconds);
 
                 switch (signaledIndex)
                 {

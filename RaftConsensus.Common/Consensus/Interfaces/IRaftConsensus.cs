@@ -2,6 +2,7 @@
 using RaftConsensus.Common.Log.Interfaces;
 using RaftConsensus.Common.Messages.Interfaces;
 using RaftConsensus.Common.PeerManagement.Interfaces;
+using RaftConsensus.Common.Settings;
 
 namespace RaftConsensus.Common.Consensus.Interfaces
 {
@@ -11,5 +12,6 @@ namespace RaftConsensus.Common.Consensus.Interfaces
         RaftConsensusState State { get; set; }
         IRaftLog RaftLog { get; }
         IPeerManagement PeerManagement { get; }
+        RaftConsensusStateSettings Settings { get; }
     }
 }

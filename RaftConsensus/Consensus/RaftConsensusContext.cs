@@ -4,6 +4,7 @@ using RaftConsensus.Common.Log.Interfaces;
 using RaftConsensus.Common.Messages.Interfaces;
 using RaftConsensus.Common.PeerManagement.Interfaces;
 using System;
+using RaftConsensus.Common.Settings;
 
 namespace RaftConsensus.Consensus
 {
@@ -12,10 +13,11 @@ namespace RaftConsensus.Consensus
         private IRaftConsensusState _currentState;
         private RaftConsensusState _currentStateEnum;
 
-        public RaftConsensusContext(IRaftLog raftLog, IPeerManagement peerManagement)
+        public RaftConsensusContext(IRaftLog raftLog, IPeerManagement peerManagement, RaftConsensusStateSettings settings)
         {
             RaftLog = raftLog;
             PeerManagement = peerManagement;
+            Settings = settings;
 
             SetState(RaftConsensusState.Follower);
         }
@@ -33,6 +35,7 @@ namespace RaftConsensus.Consensus
 
         public IRaftLog RaftLog { get; }
         public IPeerManagement PeerManagement { get; }
+        public RaftConsensusStateSettings Settings { get; }
 
         private void SetState(RaftConsensusState state)
         {

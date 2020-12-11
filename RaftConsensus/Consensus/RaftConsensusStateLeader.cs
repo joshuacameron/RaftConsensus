@@ -6,7 +6,7 @@ namespace RaftConsensus.Consensus
     internal class RaftConsensusStateLeader : RaftConsensusStateBase
     {
         public RaftConsensusStateLeader(IRaftConsensus context)
-            : base(context)
+            : base(context, context.Settings.LeaderTimeoutSeconds)
         {
 
         }
