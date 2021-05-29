@@ -19,7 +19,8 @@ namespace RaftConsensus.Tests
 
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
-                .WriteTo.File(@"test-log.txt", LogEventLevel.Debug, rollingInterval: RollingInterval.Day)
+                .MinimumLevel.Is(LogEventLevel.Verbose)
+                .WriteTo.File(@"test-log.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
             var builder = new ContainerBuilder();
