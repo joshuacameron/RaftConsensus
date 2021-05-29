@@ -1,8 +1,12 @@
 ﻿using Autofac;
 using Microsoft.Extensions.Configuration;
+using RaftConsensus.Common.Consensus.Interfaces;
+using RaftConsensus.Common.PeerManagement.Interfaces;
+using RaftConsensus.Common.Settings;
+using RaftConsensus.Consensus;
+using RaftConsensus.PeerManagement;
 using System.Linq;
 using System.Reflection;
-using RaftConsensus.Common.Settings;
 using Module = Autofac.Module;
 
 namespace RaftConsensus.Autofac
@@ -23,6 +27,9 @@ namespace RaftConsensus.Autofac
                 .AsImplementedInterfaces();
 
             builder.RegisterInstance(_configuration.GetSection("RaftConsensusStateSettings").Get<RaftConsensusStateSettings>());
+
+            builder.RegisterType<RaftPeerManagement>().As<IRaftPeerManagement>();
+            builder.RegisterType<RaftConsensusContext>().As<IRaftConsensus>();
         }
     }
 }

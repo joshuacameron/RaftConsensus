@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Autofac;
+using RaftConsensus.Common.Consensus.Interfaces;
+using Serilog;
+using Xunit;
 
 namespace RaftConsensus.Tests.Consensus
 {
     public class RaftConsensusContextTests : TestBase
     {
+        [Fact]
+        public void TestRaftConsensusInstantiates()
+        {
+            var raf = Container.Resolve<IRaftConsensus>();
+        }
     }
 }

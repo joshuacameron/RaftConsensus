@@ -1,6 +1,6 @@
 ﻿namespace RaftConsensus.Common.PeerManagement.Interfaces
 {
-    public interface IPeerManagement
+    public interface IRaftPeerManagement
     {
 
     }

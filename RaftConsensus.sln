@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaftConsensus", "RaftConsensus\RaftConsensus.csproj", "{7A86514D-1A92-40C8-AD21-213417E260BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaftConsensus", "RaftConsensus\RaftConsensus.csproj", "{7A86514D-1A92-40C8-AD21-213417E260BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaftConsensus.Tests", "RaftConsensus.Tests\RaftConsensus.Tests.csproj", "{0E2A6FC7-C4FC-4F42-98E0-3F94F37ED98E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaftConsensus.Tests", "RaftConsensus.Tests\RaftConsensus.Tests.csproj", "{0E2A6FC7-C4FC-4F42-98E0-3F94F37ED98E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaftConsensus.Common", "RaftConsensus.Common\RaftConsensus.Common.csproj", "{B1631E2C-DF13-4BE5-8F24-FAA0D0A05CE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaftConsensus.Common", "RaftConsensus.Common\RaftConsensus.Common.csproj", "{B1631E2C-DF13-4BE5-8F24-FAA0D0A05CE4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

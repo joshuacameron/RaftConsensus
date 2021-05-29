@@ -1,10 +1,10 @@
-﻿using RaftConsensus.Common.Consensus.Enums;
+﻿using Microsoft.Extensions.Logging;
+using RaftConsensus.Common.Consensus.Enums;
 using RaftConsensus.Common.Consensus.Interfaces;
-using RaftConsensus.Common.Log.Interfaces;
 using RaftConsensus.Common.Messages.Interfaces;
 using RaftConsensus.Common.PeerManagement.Interfaces;
-using System;
 using RaftConsensus.Common.Settings;
+using System;
 
 namespace RaftConsensus.Consensus
 {
@@ -12,10 +12,12 @@ namespace RaftConsensus.Consensus
     {
         private IRaftConsensusState _currentState;
         private RaftConsensusState _currentStateEnum;
+        private readonly ILogger<RaftConsensusContext> _logger;
 
-        public RaftConsensusContext(IRaftLog raftLog, IPeerManagement peerManagement, RaftConsensusStateSettings settings)
+
+        public RaftConsensusContext(ILogger<RaftConsensusContext> logger, IRaftPeerManagement peerManagement, RaftConsensusStateSettings settings)
         {
-            RaftLog = raftLog;
+            _logger = logger;
             PeerManagement = peerManagement;
             Settings = settings;
 
@@ -24,6 +26,7 @@ namespace RaftConsensus.Consensus
 
         public void ProcessMessage(IRaftMessage raftMessage)
         {
+            _logger.LogDebug("Passing message to current state to process");
             _currentState.ProcessMessage(raftMessage);
         }
 
@@ -33,15 +36,20 @@ namespace RaftConsensus.Consensus
             set => SetState(value);
         }
 
-        public IRaftLog RaftLog { get; }
-        public IPeerManagement PeerManagement { get; }
+        public IRaftPeerManagement PeerManagement { get; }
         public RaftConsensusStateSettings Settings { get; }
 
         private void SetState(RaftConsensusState state)
         {
+            _logger.LogDebug($"Changing from {(_currentState == null ? "Not running" : _currentStateEnum)} state to {state} state");
+
+            _logger.LogDebug("Disposing existing state if it exists");
             _currentState?.Dispose();
 
+            _logger.LogDebug("Changing the current state enum");
             _currentStateEnum = state;
+
+            _logger.LogDebug($"Creating the next state: {state}");
 
             _currentState = state switch
             {
@@ -50,6 +58,8 @@ namespace RaftConsensus.Consensus
                 RaftConsensusState.Leader => new RaftConsensusStateLeader(this),
                 _ => throw new NotImplementedException(),
             };
+
+            _logger.LogDebug($"State has been changed to {state}");
         }
     }
 }

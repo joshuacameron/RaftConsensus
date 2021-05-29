@@ -1,6 +1,10 @@
 ﻿using Autofac;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using RaftConsensus.Autofac;
+using Serilog;
+using Serilog.Events;
+using Serilog.Extensions.Logging;
 using System.IO;
 
 namespace RaftConsensus.Tests
@@ -13,12 +17,26 @@ namespace RaftConsensus.Tests
         {
             var configuration = GetConfiguration();
 
-            var containerBuilder = new ContainerBuilder();
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .WriteTo.File(@"test-log.txt", LogEventLevel.Debug, rollingInterval: RollingInterval.Day)
+                .CreateLogger();
 
-            containerBuilder.RegisterModule(new RaftConsensusModule(configuration));
+            var builder = new ContainerBuilder();
 
-            Container = containerBuilder.Build();
+            builder.RegisterModule(new RaftConsensusModule(configuration));
+
+            builder.Register(_ => new LoggerFactory(new ILoggerProvider[] { new SerilogLoggerProvider() }))
+                .As<ILoggerFactory>()
+                .SingleInstance();
+
+            builder.RegisterGeneric(typeof(Logger<>))
+                .As(typeof(ILogger<>))
+                .SingleInstance();
+            
+            Container = builder.Build();
         }
+
 
         private static IConfiguration GetConfiguration()
         {
