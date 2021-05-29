@@ -1,9 +1,9 @@
-﻿using RaftConsensus.Common.Consensus.Enums;
-using RaftConsensus.Common.Messages.Interfaces;
-using RaftConsensus.Common.PeerManagement.Interfaces;
-using RaftConsensus.Common.Settings;
+﻿using RaftConsensus.Consensus.Enums;
+using RaftConsensus.Messages.Interfaces;
+using RaftConsensus.PeerManagement.Interfaces;
+using RaftConsensus.Settings;
 
-namespace RaftConsensus.Common.Consensus.Interfaces
+namespace RaftConsensus.Consensus.Interfaces
 {
     public interface IRaftConsensus
     {

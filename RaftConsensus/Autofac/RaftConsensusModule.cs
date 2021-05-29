@@ -1,10 +1,10 @@
 ﻿using Autofac;
 using Microsoft.Extensions.Configuration;
-using RaftConsensus.Common.Consensus.Interfaces;
-using RaftConsensus.Common.PeerManagement.Interfaces;
-using RaftConsensus.Common.Settings;
-using RaftConsensus.Consensus;
+using RaftConsensus.Consensus.Interfaces;
+using RaftConsensus.Consensus.States;
 using RaftConsensus.PeerManagement;
+using RaftConsensus.PeerManagement.Interfaces;
+using RaftConsensus.Settings;
 using System.Linq;
 using System.Reflection;
 using Module = Autofac.Module;

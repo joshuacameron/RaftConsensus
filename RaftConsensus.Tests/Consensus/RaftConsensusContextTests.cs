@@ -1,6 +1,5 @@
 ﻿using Autofac;
-using RaftConsensus.Common.Consensus.Interfaces;
-using Serilog;
+using RaftConsensus.Consensus.Interfaces;
 using Xunit;
 
 namespace RaftConsensus.Tests.Consensus

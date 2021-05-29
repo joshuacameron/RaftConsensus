@@ -1,7 +1,7 @@
-﻿using RaftConsensus.Common.Consensus.Interfaces;
-using RaftConsensus.Common.Messages.Interfaces;
+﻿using RaftConsensus.Consensus.Interfaces;
+using RaftConsensus.Messages.Interfaces;
 
-namespace RaftConsensus.Consensus
+namespace RaftConsensus.Consensus.States
 {
     internal class RaftConsensusStateCandidate : RaftConsensusStateBase
     {

@@ -1,4 +1,4 @@
-﻿namespace RaftConsensus.Common.Consensus.Enums
+﻿namespace RaftConsensus.Consensus.Enums
 {
     public enum RaftConsensusState
     {

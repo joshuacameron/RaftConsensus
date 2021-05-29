@@ -1,4 +1,4 @@
-﻿using RaftConsensus.Common.PeerManagement.Interfaces;
+﻿using RaftConsensus.PeerManagement.Interfaces;
 
 namespace RaftConsensus.PeerManagement
 {

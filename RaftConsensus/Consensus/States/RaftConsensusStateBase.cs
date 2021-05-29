@@ -1,10 +1,8 @@
-﻿using RaftConsensus.Common.Consensus.Interfaces;
-using RaftConsensus.Common.Messages.Interfaces;
-using System;
+﻿using RaftConsensus.Consensus.Interfaces;
+using RaftConsensus.Messages.Interfaces;
 using System.Threading;
-using System.Threading.Tasks;
 
-namespace RaftConsensus.Consensus
+namespace RaftConsensus.Consensus.States
 {
     internal abstract class RaftConsensusStateBase : IRaftConsensusState
     {

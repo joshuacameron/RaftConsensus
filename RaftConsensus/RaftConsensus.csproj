@@ -11,8 +11,4 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\RaftConsensus.Common\RaftConsensus.Common.csproj" />
-  </ItemGroup>
-
 </Project>

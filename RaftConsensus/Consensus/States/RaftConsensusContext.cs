@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
-using RaftConsensus.Common.Consensus.Enums;
-using RaftConsensus.Common.Consensus.Interfaces;
-using RaftConsensus.Common.Messages.Interfaces;
-using RaftConsensus.Common.PeerManagement.Interfaces;
-using RaftConsensus.Common.Settings;
+using RaftConsensus.Consensus.Enums;
+using RaftConsensus.Consensus.Interfaces;
+using RaftConsensus.Messages.Interfaces;
+using RaftConsensus.PeerManagement.Interfaces;
+using RaftConsensus.Settings;
 using System;
 
-namespace RaftConsensus.Consensus
+namespace RaftConsensus.Consensus.States
 {
     public class RaftConsensusContext : IRaftConsensus
     {

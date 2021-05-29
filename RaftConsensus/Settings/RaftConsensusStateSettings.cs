@@ -1,4 +1,4 @@
-﻿namespace RaftConsensus.Common.Settings
+﻿namespace RaftConsensus.Settings
 {
     public class RaftConsensusStateSettings
     {

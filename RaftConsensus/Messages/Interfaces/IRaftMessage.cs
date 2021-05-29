@@ -1,6 +1,6 @@
-﻿using RaftConsensus.Common.Messages.Identification;
+﻿using RaftConsensus.Messages.Identification;
 
-namespace RaftConsensus.Common.Messages.Interfaces
+namespace RaftConsensus.Messages.Interfaces
 {
     public interface IRaftMessage
     {

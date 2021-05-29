@@ -1,7 +1,7 @@
-﻿using System;
-using RaftConsensus.Common.Messages.Interfaces;
+﻿using RaftConsensus.Messages.Interfaces;
+using System;
 
-namespace RaftConsensus.Common.Consensus.Interfaces
+namespace RaftConsensus.Consensus.Interfaces
 {
     public interface IRaftConsensusState : IDisposable
     {

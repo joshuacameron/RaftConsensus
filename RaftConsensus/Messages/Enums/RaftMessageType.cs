@@ -1,4 +1,4 @@
-﻿namespace RaftConsensus.Common.Messages.Enums
+﻿namespace RaftConsensus.Messages.Enums
 {
     public enum RaftMessageType
     {
