@@ -30,7 +30,9 @@ namespace RaftConsensus.Consensus.States
         
         private void ProcessMessage()
         {
-            var raftMessage = Context.MessageBroker.ReceiveQueue.Dequeue();
+            var raftMessage = Context.MessageQueues.ReceiveQueue.Dequeue();
+
+            //TODO: Check not null
 
             //TODO: Check message version is what we're compatible with
 

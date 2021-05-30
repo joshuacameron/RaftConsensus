@@ -6,10 +6,17 @@ namespace RaftConsensus.Tests.Consensus
 {
     public class RaftConsensusContextTests : TestBase
     {
+        private IRaftConsensus _node;
+
+        public RaftConsensusContextTests()
+        {
+            _node = Container.Resolve<IRaftConsensus>();
+        }
+        
         [Fact]
         public void TestRaftConsensusInstantiates()
         {
-            var raf = Container.Resolve<IRaftConsensus>();
+
         }
     }
 }

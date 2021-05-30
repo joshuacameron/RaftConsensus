@@ -1,17 +1,13 @@
-﻿using RaftConsensus.MessageBroker.Interfaces;
-using RaftConsensus.Messages.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using RaftConsensus.MessageBroker.Interfaces;
+using RaftConsensus.Messages.Identification;
 
 namespace RaftConsensus.MessageBroker
 {
-    public class RaftMessageBroker : IRaftMessageBroker
-    {
-        public FlaggedQueue<IRaftMessage> SendQueue { get; }
-        public FlaggedQueue<IRaftMessage> ReceiveQueue { get; }
-
-        public RaftMessageBroker()
-        {
-            SendQueue = new FlaggedQueue<IRaftMessage>();
-            ReceiveQueue = new FlaggedQueue<IRaftMessage>();
-        }
-    }
+    
 }

@@ -4,8 +4,6 @@ using RaftConsensus.Consensus.Interfaces;
 using RaftConsensus.Consensus.States;
 using RaftConsensus.MessageBroker;
 using RaftConsensus.MessageBroker.Interfaces;
-using RaftConsensus.PeerManagement;
-using RaftConsensus.PeerManagement.Interfaces;
 using RaftConsensus.Settings;
 using System.Linq;
 using System.Reflection;
@@ -30,8 +28,7 @@ namespace RaftConsensus.Autofac
 
             builder.RegisterInstance(_configuration.GetSection("RaftConsensusStateSettings").Get<RaftConsensusStateSettings>());
 
-            builder.RegisterType<RaftMessageBroker>().As<IRaftMessageBroker>();
-            builder.RegisterType<RaftPeerManagement>().As<IRaftPeerManagement>();
+            builder.RegisterType<RaftMessageQueues>().As<IRaftMessageQueues>();
             builder.RegisterType<RaftConsensusContext>().As<IRaftConsensus>();
         }
     }

@@ -2,7 +2,6 @@
 using RaftConsensus.Consensus.Enums;
 using RaftConsensus.Consensus.Interfaces;
 using RaftConsensus.MessageBroker.Interfaces;
-using RaftConsensus.PeerManagement.Interfaces;
 using RaftConsensus.Settings;
 using System;
 
@@ -13,17 +12,17 @@ namespace RaftConsensus.Consensus.States
         private RaftConsensusStateBase _currentState;
         private RaftConsensusState _currentStateEnum;
         private readonly ILogger<RaftConsensusContext> _logger;
-        public IRaftMessageBroker MessageBroker { get; }
 
-        public RaftConsensusContext(ILogger<RaftConsensusContext> logger, IRaftPeerManagement peerManagement, IRaftMessageBroker messageBroker, RaftConsensusStateSettings settings)
+        public RaftConsensusContext(ILogger<RaftConsensusContext> logger, IRaftMessageQueues messageQueues, RaftConsensusStateSettings settings)
         {
             _logger = logger;
-            PeerManagement = peerManagement;
-            MessageBroker = messageBroker;
+            MessageQueues = messageQueues;
             Settings = settings;
 
             SetState(RaftConsensusState.Follower);
         }
+
+        public IRaftMessageQueues MessageQueues { get; }
 
         public RaftConsensusState State
         {
@@ -31,7 +30,6 @@ namespace RaftConsensus.Consensus.States
             set => SetState(value);
         }
 
-        public IRaftPeerManagement PeerManagement { get; }
         public RaftConsensusStateSettings Settings { get; }
 
         private void SetState(RaftConsensusState state)

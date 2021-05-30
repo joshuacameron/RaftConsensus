@@ -1,10 +1,10 @@
-﻿using RaftConsensus.Messages.Interfaces;
+﻿using RaftConsensus.Messages.Identification;
+using RaftConsensus.Messages.Identification.Interfaces;
 
 namespace RaftConsensus.MessageBroker.Interfaces
 {
     public interface IRaftMessageBroker
     {
-        FlaggedQueue<IRaftMessage> SendQueue { get; }
-        FlaggedQueue<IRaftMessage> ReceiveQueue { get; }
+        void AddPeerQueues(IPeerIdentification peer, IRaftMessageQueues queues);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using RaftConsensus.Messages.Enums;
 using RaftConsensus.Messages.Identification;
+using RaftConsensus.Messages.Identification.Interfaces;
 
 namespace RaftConsensus.Messages.Interfaces
 {

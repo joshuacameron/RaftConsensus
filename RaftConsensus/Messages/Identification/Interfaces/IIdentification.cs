@@ -1,4 +1,4 @@
-﻿namespace RaftConsensus.Messages.Identification
+﻿namespace RaftConsensus.Messages.Identification.Interfaces
 {
     public interface IIdentification
     {
