@@ -1,22 +1,22 @@
 ﻿using RaftConsensus.Consensus.Interfaces;
-using RaftConsensus.Messages.Interfaces;
+using System;
 using System.Threading;
+using RaftConsensus.Messages.Enums;
+using RaftConsensus.Messages.Interfaces;
 
 namespace RaftConsensus.Consensus.States
 {
-    internal abstract class RaftConsensusStateBase : IRaftConsensusState
+    internal abstract class RaftConsensusStateBase : IDisposable
     {
         protected readonly IRaftConsensus Context;
         private readonly int _actionTimeoutMilliseconds;
         private readonly Thread _backgroundThread;
         private readonly CancellationTokenSource _cancellationTokenSource;
-        private readonly ManualResetEvent _resetTimeoutEvent;
 
         protected RaftConsensusStateBase(IRaftConsensus context, int actionTimeoutMilliseconds)
         {
             Context = context;
             _actionTimeoutMilliseconds = actionTimeoutMilliseconds;
-            _resetTimeoutEvent = new ManualResetEvent(false);
 
             _cancellationTokenSource = new CancellationTokenSource();
 
@@ -28,25 +28,55 @@ namespace RaftConsensus.Consensus.States
             _backgroundThread.Start();
         }
         
-        public virtual void ProcessMessage(IRaftMessage raftMessage)
+        private void ProcessMessage()
         {
+            var raftMessage = Context.MessageBroker.ReceiveQueue.Dequeue();
+
+            //TODO: Check message version is what we're compatible with
+
             //TODO: Check we're tracking this person
 
             //TODO: Check if the term is higher
+
+            switch (raftMessage.Type)
+            {
+                case RaftMessageType.AppendEntryRequest:
+                    ProcessAppendEntryRequest(raftMessage);
+                    break;
+                case RaftMessageType.AppendEntryReply:
+                    ProcessAppendEntryReply(raftMessage);
+                    break;
+                case RaftMessageType.RequestVoteRequest:
+                    ProcessRequestVoteRequest(raftMessage);
+                    break;
+                case RaftMessageType.RequestVoteReply:
+                    ProcessRequestVoteReply(raftMessage);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("raftMessage.Type","Message type not one of accepted RaftMessageType types");
+            }
         }
+
+        protected abstract void ProcessAppendEntryRequest(IRaftMessage raftMessage);
+        protected abstract void ProcessAppendEntryReply(IRaftMessage raftMessage);
+        protected abstract void ProcessRequestVoteRequest(IRaftMessage raftMessage);
+        protected abstract void ProcessRequestVoteReply(IRaftMessage raftMessage);
+
+        protected abstract void TimeoutAction();
 
         private void BackgroundThread(CancellationToken cancellationToken)
         {
             while (true)
             {
-                const int resetTimeoutEventIndex = 0;
+                const int messageReceivedEventIndex = 0;
                 const int cancellationTimeoutEventIndex = 1;
 
-                int signaledIndex = WaitHandle.WaitAny(new[] { _resetTimeoutEvent, cancellationToken.WaitHandle}, _actionTimeoutMilliseconds);
+                var signaledIndex = WaitHandle.WaitAny(new[] { Context.MessageBroker.ReceiveQueue.GetWaitHandle(), cancellationToken.WaitHandle}, _actionTimeoutMilliseconds);
 
                 switch (signaledIndex)
                 {
-                    case resetTimeoutEventIndex:
+                    case messageReceivedEventIndex:
+                        ProcessMessage();
                         break;
                     case cancellationTimeoutEventIndex:
                         return;
@@ -56,13 +86,6 @@ namespace RaftConsensus.Consensus.States
                 }
             }
         }
-
-        protected void ResetTimeout()
-        {
-            _resetTimeoutEvent.Set();
-        }
-
-        protected abstract void TimeoutAction();
 
         public virtual void Dispose()
         {

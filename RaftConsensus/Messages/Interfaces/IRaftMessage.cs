@@ -1,4 +1,5 @@
-﻿using RaftConsensus.Messages.Identification;
+﻿using RaftConsensus.Messages.Enums;
+using RaftConsensus.Messages.Identification;
 
 namespace RaftConsensus.Messages.Interfaces
 {
@@ -6,7 +7,7 @@ namespace RaftConsensus.Messages.Interfaces
     {
         IPeerIdentification To { get; }
         IPeerIdentification From { get; }
-        IMessageTypeIdentification Type { get; }
+        RaftMessageType Type { get; }
         IMessageVersionIdentification Version { get; }
         int Term { get; }
     }

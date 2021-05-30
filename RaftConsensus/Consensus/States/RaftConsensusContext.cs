@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using RaftConsensus.Consensus.Enums;
 using RaftConsensus.Consensus.Interfaces;
-using RaftConsensus.Messages.Interfaces;
+using RaftConsensus.MessageBroker.Interfaces;
 using RaftConsensus.PeerManagement.Interfaces;
 using RaftConsensus.Settings;
 using System;
@@ -10,24 +10,19 @@ namespace RaftConsensus.Consensus.States
 {
     public class RaftConsensusContext : IRaftConsensus
     {
-        private IRaftConsensusState _currentState;
+        private RaftConsensusStateBase _currentState;
         private RaftConsensusState _currentStateEnum;
         private readonly ILogger<RaftConsensusContext> _logger;
+        public IRaftMessageBroker MessageBroker { get; }
 
-
-        public RaftConsensusContext(ILogger<RaftConsensusContext> logger, IRaftPeerManagement peerManagement, RaftConsensusStateSettings settings)
+        public RaftConsensusContext(ILogger<RaftConsensusContext> logger, IRaftPeerManagement peerManagement, IRaftMessageBroker messageBroker, RaftConsensusStateSettings settings)
         {
             _logger = logger;
             PeerManagement = peerManagement;
+            MessageBroker = messageBroker;
             Settings = settings;
 
             SetState(RaftConsensusState.Follower);
-        }
-
-        public void ProcessMessage(IRaftMessage raftMessage)
-        {
-            _logger.LogDebug("Passing message to current state to process");
-            _currentState.ProcessMessage(raftMessage);
         }
 
         public RaftConsensusState State
