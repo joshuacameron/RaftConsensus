@@ -7,6 +7,7 @@ using RaftConsensus.MessageBroker.Interfaces;
 using RaftConsensus.Settings;
 using System.Linq;
 using System.Reflection;
+using RaftConsensus.Consensus.States.Interfaces;
 using Module = Autofac.Module;
 
 namespace RaftConsensus.Autofac
@@ -28,6 +29,7 @@ namespace RaftConsensus.Autofac
 
             builder.RegisterInstance(_configuration.GetSection("RaftConsensusStateSettings").Get<RaftConsensusStateSettings>());
 
+            builder.RegisterType<RaftConsensusStateFactory>().As<IRaftConsensusStateFactory>();
             builder.RegisterType<RaftMessageQueues>().As<IRaftMessageQueues>();
             builder.RegisterType<RaftConsensusContext>().As<IRaftConsensus>();
         }

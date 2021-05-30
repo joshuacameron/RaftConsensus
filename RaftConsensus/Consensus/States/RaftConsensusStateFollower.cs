@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Extensions.Logging;
 using RaftConsensus.Consensus.Interfaces;
 using RaftConsensus.Messages.Interfaces;
 
@@ -6,10 +7,12 @@ namespace RaftConsensus.Consensus.States
 {
     internal class RaftConsensusStateFollower : RaftConsensusStateBase
     {
-        public RaftConsensusStateFollower(IRaftConsensus context)
+        private readonly ILogger<RaftConsensusStateFollower> _logger;
+
+        public RaftConsensusStateFollower(ILogger<RaftConsensusStateFollower> logger, IRaftConsensus context)
             : base(context, context.Settings.FollowerTimeoutMilliseconds)
         {
-
+            _logger = logger;
         }
 
         protected override void ProcessAppendEntryRequest(IRaftMessage raftMessage)

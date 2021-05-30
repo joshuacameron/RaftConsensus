@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using RaftConsensus.Consensus.Enums;
 using RaftConsensus.Consensus.Interfaces;
+using RaftConsensus.Consensus.States.Interfaces;
 using RaftConsensus.MessageBroker.Interfaces;
 using RaftConsensus.Settings;
-using System;
 
 namespace RaftConsensus.Consensus.States
 {
@@ -12,10 +12,12 @@ namespace RaftConsensus.Consensus.States
         private RaftConsensusStateBase _currentState;
         private RaftConsensusState _currentStateEnum;
         private readonly ILogger<RaftConsensusContext> _logger;
+        private readonly IRaftConsensusStateFactory _raftConsensusStateFactory;
 
-        public RaftConsensusContext(ILogger<RaftConsensusContext> logger, IRaftMessageQueues messageQueues, RaftConsensusStateSettings settings)
+        public RaftConsensusContext(ILogger<RaftConsensusContext> logger, IRaftMessageQueues messageQueues, IRaftConsensusStateFactory raftConsensusStateFactory, RaftConsensusStateSettings settings)
         {
             _logger = logger;
+            _raftConsensusStateFactory = raftConsensusStateFactory;
             MessageQueues = messageQueues;
             Settings = settings;
 
@@ -44,13 +46,7 @@ namespace RaftConsensus.Consensus.States
 
             _logger.LogDebug($"Creating the next state: {state}");
 
-            _currentState = state switch
-            {
-                RaftConsensusState.Candidate => new RaftConsensusStateCandidate(this),
-                RaftConsensusState.Follower => new RaftConsensusStateFollower(this),
-                RaftConsensusState.Leader => new RaftConsensusStateLeader(this),
-                _ => throw new NotImplementedException(),
-            };
+            _currentState = _raftConsensusStateFactory.CreateState(state, this);
 
             _logger.LogDebug($"State has been changed to {state}");
         }

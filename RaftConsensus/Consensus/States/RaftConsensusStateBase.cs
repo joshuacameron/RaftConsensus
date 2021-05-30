@@ -6,7 +6,7 @@ using RaftConsensus.Messages.Interfaces;
 
 namespace RaftConsensus.Consensus.States
 {
-    internal abstract class RaftConsensusStateBase : IDisposable
+    public abstract class RaftConsensusStateBase : IDisposable
     {
         protected readonly IRaftConsensus Context;
         private readonly int _actionTimeoutMilliseconds;
@@ -31,6 +31,12 @@ namespace RaftConsensus.Consensus.States
         private void ProcessMessage()
         {
             var raftMessage = Context.MessageQueues.ReceiveQueue.Dequeue();
+
+            if (raftMessage == null)
+            {
+
+                return;
+            }
 
             //TODO: Check not null
 
@@ -73,7 +79,7 @@ namespace RaftConsensus.Consensus.States
                 const int messageReceivedEventIndex = 0;
                 const int cancellationTimeoutEventIndex = 1;
 
-                var signaledIndex = WaitHandle.WaitAny(new[] { Context.MessageBroker.ReceiveQueue.GetWaitHandle(), cancellationToken.WaitHandle}, _actionTimeoutMilliseconds);
+                var signaledIndex = WaitHandle.WaitAny(new[] { Context.MessageQueues.ReceiveQueue.GetWaitHandle(), cancellationToken.WaitHandle}, _actionTimeoutMilliseconds);
 
                 switch (signaledIndex)
                 {
