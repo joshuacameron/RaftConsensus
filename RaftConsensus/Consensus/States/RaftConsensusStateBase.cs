@@ -1,21 +1,31 @@
 ﻿using RaftConsensus.Consensus.Interfaces;
 using System;
 using System.Threading;
+using RaftConsensus.Consensus.Enums;
+using RaftConsensus.Helpers.Interfaces;
 using RaftConsensus.Messages.Enums;
 using RaftConsensus.Messages.Interfaces;
+
+/* TODO: Add logging
+ *
+ *
+ */
 
 namespace RaftConsensus.Consensus.States
 {
     public abstract class RaftConsensusStateBase : IDisposable
     {
-        protected readonly IRaftConsensus Context;
+        private readonly IRaftConsensus _context;
+        private readonly IWaiter _waiter;
         private readonly int _actionTimeoutMilliseconds;
         private readonly Thread _backgroundThread;
         private readonly CancellationTokenSource _cancellationTokenSource;
+        private bool _changeStateRequested;
 
-        protected RaftConsensusStateBase(IRaftConsensus context, int actionTimeoutMilliseconds)
+        protected RaftConsensusStateBase(IRaftConsensus context, IWaiter waiter, int actionTimeoutMilliseconds)
         {
-            Context = context;
+            _context = context;
+            _waiter = waiter;
             _actionTimeoutMilliseconds = actionTimeoutMilliseconds;
 
             _cancellationTokenSource = new CancellationTokenSource();
@@ -30,11 +40,10 @@ namespace RaftConsensus.Consensus.States
         
         private void ProcessMessage()
         {
-            var raftMessage = Context.MessageQueues.ReceiveQueue.Dequeue();
+            var raftMessage = _context.MessageQueues.ReceiveQueue.Dequeue();
 
             if (raftMessage == null)
             {
-
                 return;
             }
 
@@ -65,6 +74,7 @@ namespace RaftConsensus.Consensus.States
             }
         }
 
+        //TODO: these IRaftMessage types should be less abstract
         protected abstract void ProcessAppendEntryRequest(IRaftMessage raftMessage);
         protected abstract void ProcessAppendEntryReply(IRaftMessage raftMessage);
         protected abstract void ProcessRequestVoteRequest(IRaftMessage raftMessage);
@@ -77,24 +87,36 @@ namespace RaftConsensus.Consensus.States
             while (true)
             {
                 const int messageReceivedEventIndex = 0;
-                const int cancellationTimeoutEventIndex = 1;
+                const int cancellationEventIndex = 1;
 
-                var signaledIndex = WaitHandle.WaitAny(new[] { Context.MessageQueues.ReceiveQueue.GetWaitHandle(), cancellationToken.WaitHandle}, _actionTimeoutMilliseconds);
+                var signaledIndex = _waiter.Wait(new[] { _context.MessageQueues.ReceiveQueue.GetWaitHandle(), cancellationToken.WaitHandle}, _actionTimeoutMilliseconds);
 
                 switch (signaledIndex)
                 {
                     case messageReceivedEventIndex:
                         ProcessMessage();
                         break;
-                    case cancellationTimeoutEventIndex:
+                    case cancellationEventIndex:
                         return;
                     case WaitHandle.WaitTimeout:
                         TimeoutAction();
                         break;
                 }
+
+                if (_changeStateRequested)
+                {
+                    return;
+                }
             }
         }
 
+        protected void ChangeState(RaftConsensusState state)
+        {
+            _changeStateRequested = true;
+            _context.SetState(state);
+        }
+
+        //TODO: Suppress finalize?
         public virtual void Dispose()
         {
             _cancellationTokenSource.Cancel();

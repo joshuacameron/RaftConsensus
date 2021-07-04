@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
+using RaftConsensus.Consensus.Enums;
 using RaftConsensus.Consensus.Interfaces;
+using RaftConsensus.Helpers.Interfaces;
 using RaftConsensus.Messages.Interfaces;
 
 namespace RaftConsensus.Consensus.States
@@ -9,8 +11,8 @@ namespace RaftConsensus.Consensus.States
     {
         private readonly ILogger<RaftConsensusStateFollower> _logger;
 
-        public RaftConsensusStateFollower(ILogger<RaftConsensusStateFollower> logger, IRaftConsensus context)
-            : base(context, context.Settings.FollowerTimeoutMilliseconds)
+        public RaftConsensusStateFollower(ILogger<RaftConsensusStateFollower> logger, IRaftConsensus context, IWaiter waiter)
+            : base(context, waiter, context.Settings.FollowerTimeoutMilliseconds)
         {
             _logger = logger;
         }
@@ -37,7 +39,7 @@ namespace RaftConsensus.Consensus.States
 
         protected override void TimeoutAction()
         {
-
+            ChangeState(RaftConsensusState.Candidate);
         }
     }
 }
